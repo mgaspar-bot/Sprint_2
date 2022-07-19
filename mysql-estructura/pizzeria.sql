@@ -28,20 +28,6 @@ PRIMARY KEY (id_cliente),
 FOREIGN KEY(id_localitat) REFERENCES localitat(id_localitat)
 );
 
-CREATE TABLE comanda (
-id_comanda INT NOT NULL AUTO_INCREMENT,
-id_cliente INT NOT NULL,
-data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-domi_o_recollir ENUM('a domicili', 'recollir'),
-/*QUANTITAT DE CADA TIPUS*/
-num_pizzes INT,
-num_hamburgueses INT,
-num_begudes INT,
-preu INT,
-PRIMARY KEY (id_comanda),
-FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
-);
-
 CREATE TABLE categoria_pizza (
 id_categoria INT NOT NULL AUTO_INCREMENT,
 nom VARCHAR(20),
@@ -58,6 +44,25 @@ descripcio TEXT,
 preu INT NOT NULL,
 PRIMARY KEY (id_producte),
 FOREIGN KEY (id_categoria_pizza) REFERENCES categoria_pizza(id_categoria)
+);
+
+CREATE TABLE comanda (
+id_comanda INT NOT NULL AUTO_INCREMENT,
+id_cliente INT NOT NULL,
+hora_comanda TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+domi_o_recollir ENUM('a domicili', 'recollir'),
+preu_total INT NOT NULL,
+PRIMARY KEY (id_comanda),
+FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+);
+
+CREATE TABLE llista_compra (
+id_comanda INT NOT NULL UNIQUE,
+id_producte INT NOT NULL,
+quantitat_producte INT NOT NULL,
+preu_parcial INT NOT NULL,
+FOREIGN KEY (id_comanda) REFERENCES comanda(id_comanda),
+FOREIGN KEY (id_producte) REFERENCES producte(id_producte)
 );
 
 CREATE TABLE botiga (
@@ -83,7 +88,7 @@ nom VARCHAR(30) NOT NULL,
 cognoms VARCHAR (70) NOT NULL,
 nif CHAR(9) NOT NULL UNIQUE,
 telefon CHAR(9) NOT NULL,
-funcio ENUM('cuiner','repartidor'),
+funcio ENUM('cuiner','repartidor') NOT NULL,
 PRIMARY KEY (id_empleat),
 FOREIGN KEY (id_botiga) REFERENCES botiga(id_botiga)
 );
