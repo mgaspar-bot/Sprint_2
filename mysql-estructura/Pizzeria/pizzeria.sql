@@ -40,7 +40,7 @@ tipus ENUM('pizza','hamburguesa','beguda') NOT NULL,
 id_categoria_pizza INT,
 nom VARCHAR(30) NOT NULL UNIQUE,
 descripcio TEXT,
-/*IMATGE, m'haig de guardar una ruta en el fs o el binary, o IMAGE?*/
+imatge VARCHAR(300),
 preu DECIMAL(8,2) NOT NULL,
 PRIMARY KEY (id_producte),
 FOREIGN KEY (id_categoria_pizza) REFERENCES categoria_pizza(id_categoria)
