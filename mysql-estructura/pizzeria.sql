@@ -41,7 +41,7 @@ id_categoria_pizza INT,
 nom VARCHAR(30) NOT NULL UNIQUE,
 descripcio TEXT,
 /*IMATGE, m'haig de guardar una ruta en el fs o el binary, o IMAGE?*/
-preu INT NOT NULL,
+preu DECIMAL(8,2) NOT NULL,
 PRIMARY KEY (id_producte),
 FOREIGN KEY (id_categoria_pizza) REFERENCES categoria_pizza(id_categoria)
 );
@@ -49,18 +49,18 @@ FOREIGN KEY (id_categoria_pizza) REFERENCES categoria_pizza(id_categoria)
 CREATE TABLE comanda (
 id_comanda INT NOT NULL AUTO_INCREMENT,
 id_cliente INT NOT NULL,
-hora_comanda TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+hora_comanda TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 domi_o_recollir ENUM('a domicili', 'recollir'),
-preu_total INT NOT NULL,
+preu_total DECIMAL(8,2) NOT NULL,
 PRIMARY KEY (id_comanda),
 FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
 );
 
 CREATE TABLE llista_compra (
-id_comanda INT NOT NULL UNIQUE,
+id_comanda INT NOT NULL,
 id_producte INT NOT NULL,
 quantitat_producte INT NOT NULL,
-preu_parcial INT NOT NULL,
+preu_parcial DECIMAL(8,2) NOT NULL,
 FOREIGN KEY (id_comanda) REFERENCES comanda(id_comanda),
 FOREIGN KEY (id_producte) REFERENCES producte(id_producte)
 );
