@@ -1,0 +1,74 @@
+use('restDB');
+
+
+db.restaurants.find(
+    {
+        "cuisine" : { $ne: "American "}, /*American té un putu espai al final */
+         "grades.score" : {$gt:70}, 
+         "address.coord":{$lt:-65.754168, } 
+    } );
+
+db.restaurants.find(
+{
+    "cuisine": {$ne: 'American '}, 
+    "grades.grade" : "A", 
+    "borough": {$ne: "Brooklyn"}
+},
+{
+    "cuisine":1, 
+    "grades.grade":1, 
+    "borough": 1, 
+    "_id": 0,
+    "name":1
+} ).sort({cuisine:-1});
+
+db.restaurants.find(
+    {name: /^Wil/}, /* En regex, ^significa start of input. Menys entre [], llavors es com un "not" [aeiou] fa match amb aeio, [^aeiou] fa match amb tot lo que no es aeiou*/
+    {restaurant_id:1,
+    name:1,
+    borough:1,
+    cuisine:1,
+    _id:0});
+db.restaurants.find(
+    {name: /ces$/}, /* En regex, $ vol dir end of input*/
+    {restaurant_id:1,
+    name:1,
+    borough:1,
+    cuisine:1,
+    _id:0} )
+db.restaurants.find(
+    {name: /Reg/i},  /*per defecte la regular expression es un "contains", fara match si apareig "Reg" en qualsevol lloc amb la i del darrere es case insensitive*/
+    {restaurant_id:1,
+    name:1,
+    borough:1,
+    cuisine:1,
+    _id:0 } );
+
+db.restaurants.find(
+    {
+        borough:"Bronx",
+         cuisine: /American |Chinese/ /*les regex et salven d'utilitzar el $or. /coses|altrescoses/ torna el que fa match amb una O altra expressio literal */
+    },
+    {
+        cuisine:1,
+        _id:0
+    } );
+
+db.restaurants.find(
+    { 
+        $and: [ 
+            {borough: {$ne:"Staten Island"} }, /* amb ands i nots les regex semblen un malson, potser es que no les ser utilitzar*/
+            {borough: {$ne:"Bronx"} },
+            {borough:{$ne:"Queens"}}, 
+            {borough:{$ne:"Brooklyn"} } 
+        ] }, 
+    {
+        restaurant_id:1,
+        name:1,
+         borough:1, cuisine:1, _id:0});
+
+
+
+
+
+

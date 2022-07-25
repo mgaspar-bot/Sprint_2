@@ -1,0 +1,24 @@
+use ("restDB");
+db.restaurants.find();
+db.restaurants.find({}, {restaurant_id:1,name:1,borough:1,cuisine:1});
+db.restaurants.find({}, {_id:0,restaurant_id:1,name:1,borough:1,cuisine:1});
+db.restaurants.find({}, {_id:0,restaurant_id:1,name:1,borough:1,"address.zipcode":1});
+db.restaurants.find({ borough:"Bronx"}, {name:1, _id:0});
+db.restaurants.find({borough:"Bronx"}, {name:1, _id:0}).limit(5);
+db.restaurants.find({borough:"Bronx"}, {_id:0,name:1}).skip(5).limit(5);
+db.restaurants.find({"grades.score" : {$gt:90 } } );
+db.restaurants.find({"grades.score" : {$gt:80 , $lt:100 } } );
+db.restaurants.find({"address.coord" : {$lt:-95.754168, } } );
+db.restaurants.find({"cuisine" : { $ne: "American "}, "grades.score" : {$gt:70}, "address.coord":{$lt:-65.754168, } } );
+db.restaurants.find({"cuisine" : { $ne: "American "}, "grades.score" : {$gt:70}, "address.coord":{$lt:-65.754168, } } );
+db.restaurants.find({cuisine: {$ne: "American "}, "grades.grade" : 'A', borough: {$ne: "Brooklyn"}}, {name:1, _id:0,cuisine:1,grades:1, borough:1}).sort({cuisine:-1});
+db.restaurants.find({name: /^Wil/}, {restaurant_id:1,name:1,borough:1,cuisine:1,_id:0})
+db.restaurants.find({name: /ces$/}, {restaurant_id:1,name:1,borough:1,cuisine:1,_id:0})
+db.restaurants.find({name: /Reg/}, {restaurant_id:1,name:1,borough:1,cuisine:1,_id:0})
+db.restaurants.find({borough:"Bronx", cuisine: /American |Chinese/ } );
+db.restaurants.find({borough: /Staten|Bronx|Queens|Brooklyn/}, {restaurant_id:1,name:1, borough:1, cuisine:1, _id:0})
+db.restaurants.find({$and: [ {borough: {$ne:"Staten Island"} }, {borough: {$ne:"Bronx"} },   {borough:{$ne:"Queens"}}, {borough:{$ne:"Brooklyn"} } ] }, {restaurant_id:1,name:1,borough:1, cuisine:1, _id:0});
+
+
+
+
