@@ -67,6 +67,115 @@ db.restaurants.find(
         name:1,
          borough:1, cuisine:1, _id:0});
 
+db.restaurants.find(
+    {
+        borough:"Bronx", 
+        cuisine: /American |Chinese/ 
+    },
+    {
+        cuisine:1,
+        borough:1,
+        _id:0
+    } );
+
+db.restaurants.find(
+    {
+        $and: [  /*Cal utilitzar el and si volem imposar més d'una regla al mateix field*/
+            {cuisine: /Seafood/},
+            {cuisine: {$not: /American/}}, 
+            {cuisine: {$not: /Chinese/}}
+        ] 
+    }, 
+    {restaurant_id:1,name:1, borough:1,cuisine:1, _id:0});
+
+
+db.restaurants.find(
+    {
+         /*Sense el $and mostra les cuisines que li don la gana*/
+        cuisine: /Seafood/,
+        cuisine: {$not: /American/}, 
+        cuisine: {$not: /Chinese/} 
+    }, 
+    {restaurant_id:1,name:1, borough:1,cuisine:1, _id:0});
+
+
+/*El $and esta implicit entre camps diferents en una query: */
+
+ db.runCommand(
+    {
+        count:"restaurants",
+        query: {
+            $and: [
+                {borough:/Manhattan|Queens/},
+                {cuisine: /Seafood/}
+            ]
+        }
+    }
+);
+/*Es exactament el mateix que: */ 
+
+db.runCommand(
+    {
+        count:"restaurants",
+        query: {
+            borough:/Queens|Manhattan/,
+            cuisine: /Seafood/
+        }
+    }
+);
+
+/*CONSULTA 21: */
+db.restaurants.find(
+    {
+        $or: [
+            {$and: [
+                {cuisine: /Seafood/}, 
+                {cuisine: {$not: /American/}}, 
+                {cuisine: {$not: /Chinese/}}
+            ] },
+            {name: /^Wil/}
+        ]
+    },
+    {restaurant_id:1,name:1, borough:1,cuisine:1, _id:0}).sort({name:-1});
+
+db.restaurants.find({"grades.date": ISODate("2014-08-11T00:00:00Z") }, 
+{name:1,"grades.date":1,_id:0});
+
+/*Consulta 22 
+demana un document "grades" en concret amb
+grade A, score 11 i data TAL
+com que grades es una array de documents si busquem "normal"
+et mostra tots els documents de restaurants que tenen algun document dins de grades
+que compleix algun dels criteris
+Per buscar un document que compleixi els tres dins de l'array hem d'usar $elemMatch: 
+*/
+db.restaurants.find(
+    {
+        "grades": {$elemMatch: {grade:'A', score:11, date: ISODate("2014-08-11T00:00:00Z")} }
+    },
+    {restaurant_id:1, name:1, grades:1, _id:0} );
+
+/*
+CONSULTA 23
+Quan utilitzes dot notation per fer queries d'una Array importa l'ordre en
+el que escrius els camps del document (vaia pal)
+*/
+
+db.restaurants.find(
+    {
+        "grades.1": { date: ISODate("2014-08-11T00:00:00Z"),grade:'A', score: 9  } //Escrits en ordre diferent no torna res
+    },
+    {restaurant_id:1,name:1,grades:1,_id:0});
+
+/*CONSULTA 24*/
+db.restaurants.find(
+    {
+            "address.coord.1": {$lt:52, $gt:42}
+    }, 
+    {restaurant_id:1,name:1,address:1,_id:0});
+
+
+
 
 
 
