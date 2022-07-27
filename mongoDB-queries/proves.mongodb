@@ -99,7 +99,7 @@ db.restaurants.find(
     {restaurant_id:1,name:1, borough:1,cuisine:1, _id:0});
 
 
-/*El $and esta implicit entre camps diferents en una query: */
+/*El operador (and/or??) esta implicit entre camps diferents en una query: */
 
  db.runCommand(
     {
@@ -185,7 +185,7 @@ db.restaurants.find(
 
 db.restaurants.find(
     {
-        "address.street" : {$type: "null"} //hauria de ser 0
+        "address.street" : {$type: "null"} //no torna cap document
     }, 
     {name:1, "address.street":1});
 
