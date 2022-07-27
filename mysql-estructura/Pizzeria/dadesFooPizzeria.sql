@@ -35,26 +35,20 @@ INSERT INTO producte (tipus, nom, preu) values
 ('hamburguesa','kebab',4.5),
 ('beguda','ron',1.2);
 
-INSERT INTO comanda (id_cliente, preu_total) values 
-(3, 40.90),
-(4, 40.80),
-(1, 40.09),
-(2, 40.76),
-(5, 40.65);
+INSERT INTO comanda (id_cliente, preu_total, id_botiga, id_repartidor) values 
+(3, 40.90, 2,2),
+(4, 40.80, 1, 2),
+(1, 40.09, 2, 1),
+(2, 40.76, 3, 3),
+(5, 40.65, 4, 4);
 
 
 INSERT INTO llista_compra (id_comanda, id_producte, quantitat_producte, preu_parcial) values 
-(1,4,4,20.2),(1,4,4,30.10),(1,1,1,2.0);
+(1,4,4,20.2),(1,3,4,30.10),(1,1,1,2.0);
 INSERT INTO llista_compra (id_comanda, id_producte, quantitat_producte, preu_parcial) values 
 (2,3,4,20),(2,1,3,56.5),(3,2,5,78.6);
 INSERT INTO llista_compra (id_comanda, id_producte, quantitat_producte, preu_parcial) values 
 (4,2,12,2000.0),(5,3,5,56.5),(5,4,100,78000);
-
-INSERT INTO repartidor_porta_comanda (id_repartidor, id_comanda) values 
-(1,1),(1,2),(2,3),(3,4),(5,5);
-
-INSERT INTO botiga_gestiona_comanda (id_comanda, id_botiga) values
-(1,1),(2,2),(3,3),(4,4),(5,5)
 
 /*
 Pizzeria:
