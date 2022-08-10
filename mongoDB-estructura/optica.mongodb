@@ -1,5 +1,5 @@
 use('opticamgm');
-db.dropDatabase(); /*Aixo no es carregara a db on estiguis si no hi ha una 'opticamgm'??*/
+db.dropDatabase(); /*Aixo no es carregara la db on estiguis si no hi ha una 'opticamgm'??*/
 use('opticamgm');
 
 db.proveidors.insertOne(
