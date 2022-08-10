@@ -1,0 +1,116 @@
+use('opticamgm');
+db.dropDatabase(); /*Aixo no es carregara a db on estiguis si no hi ha una 'opticamgm'??*/
+use('opticamgm');
+
+db.proveidors.insertOne(
+    {
+        "nom":"Proveidor 1",
+        "adreca":"c del Mig, 123, 2on 1a BCN",
+        "telefon":'93567893',
+        "NIF": '68957423D',
+        "marques": [
+            "marca1",
+            "marca2"
+        ]
+    }
+);
+db.proveidors.find();
+
+db.ulleres.insertOne(
+    {
+        "marca":"marca1",
+        "vidres": {
+            "dret": {
+                "graduacio": 2.6,
+                "color":"transp"
+            },
+            "esquerre": {
+                "graduacio": 2.6,
+                "color": "transp"
+            }
+        },
+        "muntura": {
+            "tipus":"pasta",
+            "color": "verd"
+        },
+        "preu": 50
+    }
+);
+db.ulleres.find();
+let idXJ = ObjectId(); //referenciant a lo guarro
+db.clients.insertOne(
+    {
+        "_id":idXJ,
+        "nom":"Xavi Jubany",
+        "adreca": "la de Xavi Jubany",
+        "telefon":"el de Xavi Jubany",
+        "email": "xavi@gmail.com",
+    }
+);
+db.clients.insertOne(
+    {
+        "nom":"Júlia Jubany",
+        "adreca": "un lloc en concret",
+        "telefon": "una string amb 9 digits",
+        "email":"algo@algo.algo",
+        "recomanador":{
+            $ref:"clients",
+            $id: idXJ
+        }
+    }
+);
+// hol = db.clients.findOne({"nom": /^Júlia Jubany/}, {_id: {$toString: "$_id"}, "nom":1 } );
+hol = db.clients.findOne({"nom": /^Júlia Jubany/}, {_id: 1 } );
+/* console.log(hol._id.constructor.name);
+console.log(hol.constructor.name);
+console.log(hol._id);
+console.log(hol.nom); */
+/*
+Obtenir el ObjectId d'una query te varies coses rares:
+    1. Cal usar el findOne, pq et torna un object amb els camps que li hagis demanat 
+        al display. Si uses find() et torna un objecte "Cursor" que si volguessis utilitzar 
+        podries convertir a Array ficant-li un .toArray() al final. Suposo que llavors pots
+        usar brackets i cada posicií es com el findOne
+    2. Per extreure la string del ObjectId només funciona el $toString en el objecte display
+        de la query. Ni posant un .toString() darrere el findOne(), ni amb hol.toString() ni
+        amb `${hol}`. Finalment no ha calgut extreure la string pq puc accedir al Objectid
+        "sencer" amb hol._id
+En resum, diria que en fer el findOne el que tens es un objecte amb tants camps com li
+hagis demanat en el display. Cal anar amb compte pq en guardarte'l en una variable, el
+resultat de la query també es un objecte amb el seu propi ObjectId.
+*/
+db.clients.insertOne(
+    {
+        "nom":"Novia de Júlia Jubany",
+        "adreca":"pel Baix Llobregat",
+        "telefon":"123456789",
+        "email":"ei@quepassa.com",
+        "recomanador": {
+            $ref: "clients",
+            $id: hol._id 
+            //$id:ObjectId(hol._id) aixi es com ho feia quan extreia la string
+        }
+    }
+);
+db.clients.find();
+db.ulleres.insertOne(
+    {
+        "marca":"marca2",
+        "vidres": {
+            "dret": {
+                "graduacio": 5.3,
+                "color":"transp"
+            },
+            "esquerre": {
+                "graduacio": 1.2,
+                "color": "transp"
+            }
+        },
+        "muntura": {
+            "tipus":"flotant",
+            "color": "negre"
+        },
+        "preu": 240,
+        "venuda_per": "Marc"
+    }
+);
