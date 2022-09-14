@@ -2,6 +2,46 @@ use('pizzeriamgm');
 db.dropDatabase();
 use('pizzeriamgm');
 
+db.producte.insertOne(
+    {
+        "tipus":"hamburguesa",
+        "nom":"hamburguesa completa",
+        "descripcio":"no li falta res",
+        "img_url":".com/img/completa.png",
+        "preu":"5,5"
+    }
+);
+
+db.producte.insertOne(
+    "tipus":"pizza",
+    "categoria_pizza":{
+        "id_categoria":"0",
+        "nom":"vegetariana"
+    },
+    "nom":"Reina Hortalissa",
+    "descripcio":"nomes disponible al octubre, quan floreix la pizza",
+    "img_url":".com/img/hortalissa.png",
+    "preu":"8"
+);
+
+db.botiga.instertOne(
+    "adreca":"pl eivissa, 4",
+    "cp":"08032",
+    "localitat":"barcelona",
+    "provincia":"barcelona",
+    "empleats":[
+        {
+            "id_empleat":"0",
+            "nom":"Pere",
+            "cognoms":"Llimoner i Pera",
+            "NIF":"12345678C",
+            "telf":"935678932",
+            "posicio":"repartidor"
+        }
+    ]    
+);
+queryResult = db.botiga.findOne({"adreca":/eivissa/}, {_id:1});
+
 db.client.insertOne(
     {
         "nom":"Carla",
@@ -11,12 +51,35 @@ db.client.insertOne(
         "localitat": "Cerdanyola",
         "provincia":"Barcelona",
         "telf":"659874213",
+        "botiga_assignada": {
+            $ref:"botiga",
+            $id:queryResult._id
+        }
         "comandes": [
-            
+            {
+                "id_comanda":"0",
+                "datetime_demana":new Date(Date.now()),
+                "domi":"1",
+                "quantitats_tipus": {
+                    "pizza": 1,
+                    "hamburguesa": 2,
+                    "beguda": 3
+                },
+                "preu_total": "25",
+                "repartida":{
+                    "id_empleat":"1",
+                    "datetime_entrega":Date(Date.now()+1500);
+                }
+            },{
+                "id_comanda":"1",
+                "datetime_demana": new Date(154875632547),
+                "quantitats_tipus": {
+                    "pizza": 1,
+                    "hamburguesa": 2,
+                    "beguda": 3
+                },
+                "preu_total": "25"
+            }
         ]
     }
-);
-
-db.pizza.instertOne(
-    
 );
