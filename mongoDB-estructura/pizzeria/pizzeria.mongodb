@@ -1,0 +1,22 @@
+use('pizzeriamgm');
+db.dropDatabase();
+use('pizzeriamgm');
+
+db.client.insertOne(
+    {
+        "nom":"Carla",
+        "cognoms":"Camp i Platja",
+        "adreca":"C Major, 47",
+        "cp": "08290",
+        "localitat": "Cerdanyola",
+        "provincia":"Barcelona",
+        "telf":"659874213",
+        "comandes": [
+            
+        ]
+    }
+);
+
+db.pizza.instertOne(
+    
+);

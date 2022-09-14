@@ -1,0 +1,156 @@
+use('opticamgm');
+db.dropDatabase();
+use('opticamgm');
+
+db.proveidors.insertOne(
+    {
+        "nom":"Proveidor 1",
+        "adreca":"c del Mig, 123, 2on 1a BCN",
+        "telefon":'93567893',
+        "NIF": '68957423D',
+        "marques": [
+            "marca1",
+            "marca2"
+        ]
+    }
+);
+db.proveidors.find();
+/*
+Ulleres i proveidors és One to Many, li poso id referencing pq sinó cada ullera tindria
+tota la info del seu proveidor, i hihaura moltes ulleres
+*/
+let queryResult = db.proveidors.findOne({ "marques": "marca1" }, { _id:1 });
+db.ulleres.insertOne(
+    {
+        "marca":"marca1",
+        "proveidor": {
+            $ref: "proveidors",
+            $id: queryResult._id
+        },
+        "vidres": {
+            "dret": {
+                "graduacio": "2.6",
+                "color":"transp"
+            },
+            "esquerre": {
+                "graduacio": "2.6",
+                "color": "transp"
+            }
+        },
+        "muntura": {
+            "tipus":"pasta",
+            "color": "verd"
+        },
+        "preu": "50"
+    }
+);
+db.ulleres.find();
+let idXJ = ObjectId();
+/*
+Client i recomanador es One to Many aixi que igual, referencies.
+*/
+db.clients.insertOne(
+    {
+        "_id":idXJ,
+        "nom":"Xavi Jubany",
+        "adreca": "la de Xavi Jubany",
+        "telefon":"el de Xavi Jubany",
+        "email": "xavi@gmail.com",
+    }
+);
+db.clients.insertOne(
+    {
+        "nom":"Júlia Jubany",
+        "adreca": "un lloc en concret",
+        "telefon": "una string amb 9 digits",
+        "email":"algo@algo.algo",
+        "recomanador":{
+            $ref:"clients",
+            $id: idXJ
+        }
+    }
+);
+
+queryResult = db.clients.findOne({"nom": /^Júlia Jubany/}, {_id: 1 } );
+db.clients.insertOne(
+    {
+        "nom":"Novia de Júlia Jubany",
+        "adreca":"pel Baix Llobregat",
+        "telefon":"123456789",
+        "email":"ei@quepassa.com",
+        "recomanador": {
+            $ref: "clients",
+            $id: queryResult._id
+        }
+    }
+);
+db.clients.find();
+
+/*
+La relacio ullera-venedor també es One to Many però no
+farem una coleccio nomes pert empleats aixi que embedding
+*/
+db.ulleres.insertOne(
+    {
+        "marca":"marca2",
+        "vidres": {
+            "dret": {
+                "graduacio": "5.3",
+                "color":"transp"
+            },
+            "esquerre": {
+                "graduacio": "1.2",
+                "color": "transp"
+            }
+        },
+        "muntura": {
+            "tipus":"flotant",
+            "color": "negre"
+        },
+        "preu": "240",
+        "venuda_per": {
+            "nom": "Marc",
+            "num_empleat":"6"
+        }
+    }
+);
+
+db.ulleres.insertOne(
+    {
+        "marca":"marca2",
+        "vidres": {
+            "dret": {
+                "graduacio": "5.3",
+                "color":"transp"
+            },
+            "esquerre": {
+                "graduacio": "1.2",
+                "color": "transp"
+            }
+        },
+        "muntura": {
+            "tipus":"flotant",
+            "color": "blanc"
+        },
+        "preu": "240",
+        "venuda_per": {
+            "nom": "Alba",
+            "num_empleat":"8"
+        }
+    }
+);
+
+
+/*
+One-to-One: 
+        embedded documents
+One-to-many: 
+        With one-to-few and one-to-many relationships, in general, think about Embedding first.
+        One-to-aLot relationship is usually treated by Reference instead of Embedding.
+        Use Embedding when data is mostly read but rarely updated, and when two models belong intrinsically together.
+        Think about Referencing when data is updated a lot, and you need to frequently query a collection on its own.
+        Never allow arrays to grow indefinitely. Therefore, use Child Referencing for one-to-many relationships, and Parent Referencing (child has reference to parent) 
+        for One-to-aLot relationships.
+Many-to-Many: 
+        we always use Data References or Normalizing the data.
+        */
