@@ -10,35 +10,40 @@ db.producte.insertOne(
         "img_url":".com/img/completa.png",
         "preu":"5,5"
     }
-);
+); //en insertar un Objecte queden definides les propietats
+//de la coleccio i no es poden afegir altres??
 
 db.producte.insertOne(
-    "tipus":"pizza",
-    "categoria_pizza":{
-        "id_categoria":"0",
-        "nom":"vegetariana"
-    },
-    "nom":"Reina Hortalissa",
-    "descripcio":"nomes disponible al octubre, quan floreix la pizza",
-    "img_url":".com/img/hortalissa.png",
-    "preu":"8"
+    {
+        "tipus":"pizza",
+        "categoria_pizza":{
+            "id_categoria":"0",
+            "nom":"vegetariana"
+        },
+        "nom":"Reina Hortalissa",
+        "descripcio":"nomes disponible al octubre, quan floreix la pizza",
+        "img_url":".com/img/hortalissa.png",
+        "preu":"8"
+    }
 );
 
-db.botiga.instertOne(
-    "adreca":"pl eivissa, 4",
-    "cp":"08032",
-    "localitat":"barcelona",
-    "provincia":"barcelona",
-    "empleats":[
-        {
-            "id_empleat":"0",
-            "nom":"Pere",
-            "cognoms":"Llimoner i Pera",
-            "NIF":"12345678C",
-            "telf":"935678932",
-            "posicio":"repartidor"
-        }
-    ]    
+db.botiga.insertOne(
+    {
+        "adreca":"pl eivissa, 4",
+        "cp":"08032",
+        "localitat":"barcelona",
+        "provincia":"barcelona",
+        "empleats":[
+            {
+                "id_empleat":"0",
+                "nom":"Pere",
+                "cognoms":"Llimoner i Pera",
+                "NIF":"12345678C",
+                "telf":"935678932",
+                "posicio":"repartidor"
+            }
+        ]    
+    }
 );
 queryResult = db.botiga.findOne({"adreca":/eivissa/}, {_id:1});
 
@@ -54,7 +59,7 @@ db.client.insertOne(
         "botiga_assignada": {
             $ref:"botiga",
             $id:queryResult._id
-        }
+        },
         "comandes": [
             {
                 "id_comanda":"0",
@@ -68,7 +73,7 @@ db.client.insertOne(
                 "preu_total": "25",
                 "repartida":{
                     "id_empleat":"1",
-                    "datetime_entrega":Date(Date.now()+1500);
+                    "datetime_entrega":Date(Date.now()+1500)
                 }
             },{
                 "id_comanda":"1",
