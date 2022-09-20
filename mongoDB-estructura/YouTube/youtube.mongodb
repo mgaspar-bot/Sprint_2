@@ -1,0 +1,78 @@
+use('youtubemgm');
+db.dropDatabase();
+use('youtubemgm');
+
+db.user.insertOne(
+    {
+        "email":"merli@camelot.com",
+        "password":"123456",
+        "username":"merlinet27",
+        "birthdate": new Date(4),
+        "sex": "M",
+        "country":"camelot",
+        "cp":"10101",
+        "channels": [
+            {
+                "id_canal":new ObjectId(),
+                "name":"el savi del regne",
+                "description":"parlem de magia i aconsellar reis",
+                "creation_date":new Date(Date.now()),
+                "videos": [
+                    {
+                        "id_video":new ObjectId(),
+                        "title": "arrenquem Excalibur de la pedra... lo que pasó después te sorprenderá",
+                        "description":"like & subscribe",
+                        "size":"6",
+                        "filename":"exca.mp4",
+                        "length":"36:09",
+                        "views":"5000",
+                        "thumbnail":"youtube.com/img2.jpg",
+                        "likes":"456",
+                        "dislikes":"891",
+                        "state":"public",
+                        "upload_date": new Date(5000),
+                        "tags": [
+                            {
+                                "id_tag": new ObjectId(),
+                                "name":"swords"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id_channel":new ObjectId(),
+                "name":"unboxingMagic",
+                "description":"canal de unboxings de escombres voladores",
+                "creation_date":new Date(Date.now()),
+                "videos": [
+                    {
+                        "id_video":new ObjectId(),
+                        "title": "unboxing Nimbus 2000",
+                        "description":"qui me l'haurà regalat?...",
+                        "size":"4",
+                        "filename":"nimbus2000.mp4",
+                        "length":"11:34",
+                        "views":"0",
+                        "thumbnail":"youtube.com/img1.jpg",
+                        "likes":"0",
+                        "dislikes":"0",
+                        "state":"hidden",
+                        "upload_date": new Date(4000),
+                        "tags": [
+                            {
+                                "id_tag": new ObjectId(),
+                                "name":"unboxings"
+                            },
+                            {
+                                "id_tag": new ObjectId(),
+                                "name":"magic"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+);
+db.user.findOne({})
