@@ -154,7 +154,7 @@ db.user.insertOne(
 db.user.findOne({"channels.videos.tags.name":"magic"},{"channels.videos.tags.id_tag":1});
 db.user.insertOne(
     {
-        "_id":ObjectId("000000000123")
+        "_id":ObjectId("000000000123"),
         "email":"merliFan@camelot.com",
         "password":"123456",
         "username":"merliMOLA34",
