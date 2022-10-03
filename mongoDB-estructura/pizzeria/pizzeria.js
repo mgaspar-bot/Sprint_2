@@ -1,6 +1,4 @@
-use('pizzeriamgm');
 db.dropDatabase();
-use('pizzeriamgm');
 
 db.producte.insertOne(
     {
@@ -31,6 +29,7 @@ db.producte.insertOne(
 
 db.botiga.insertOne(
     {
+        "_id":0,
         "adreca":"pl eivissa, 4",
         "cp":"08032",
         "localitat":"barcelona",
@@ -47,8 +46,6 @@ db.botiga.insertOne(
         ]    
     }
 );
-queryResult = db.botiga.findOne({"adreca":/eivissa/}, {_id:1});
-
 db.client.insertOne(
     {
         "nom":"Carla",
@@ -60,7 +57,7 @@ db.client.insertOne(
         "telf":"659874213",
         "botiga_assignada": {
             $ref:"botiga",
-            $id:queryResult._id
+            $id:0
         },
         "comandes": [
             {
@@ -68,12 +65,13 @@ db.client.insertOne(
                 "datetime_demana":new Date(Date.now()),
                 "domi":"1",
                 "productes": [
-
+                    0,
+                    1
                 ],
                 "quantitats_tipus": {
                     "pizza": 1,
-                    "hamburguesa": 1,
-                    "beguda": 
+                    "hamburguesa": 0,
+                    "beguda": 1
                 },
                 "preu_total": "25",
                 "repartida":{
